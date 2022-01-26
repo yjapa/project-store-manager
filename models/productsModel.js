@@ -1,14 +1,14 @@
 const connection = require('./connection');
 
-const createProduct = async (name, age) => {
+const createProduct = async (name, quantity) => {
   const query = 'INSERT INTO products (name, quantity) VALUES (? ,?)';
-  const [result] = await connection.execute(query, [name, age]);
+  const [result] = await connection.execute(query, [name, quantity]);
 
   const { insertId } = result;
   return {
     id: insertId,
     name,
-    age,
+    quantity,
   };
 };
 
