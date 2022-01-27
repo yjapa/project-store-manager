@@ -42,9 +42,15 @@ const getProductsById = async (id) => {
 const updateProduct = async (name, quantity, id) => {
   await getProductsById(id);
 
-  const update = await productsModel.updateProduct(name, quantity, id);
+  await productsModel.updateProduct(name, quantity, id);
+};
 
-  return update;
+const removeProduct = async (id) => {
+  const remove = await getProductsById(id);
+
+  await productsModel.removeProduct(id);
+
+  return remove;
 };
 
 module.exports = {
@@ -52,4 +58,5 @@ module.exports = {
   getAllProducts,
   getProductsById,
   updateProduct,
+  removeProduct,
 };
