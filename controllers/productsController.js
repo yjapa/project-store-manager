@@ -47,9 +47,9 @@ products.put(
     const { id } = req.params;
     const { name, quantity } = req.body;
     
-    const updateProduct = await productsService.updateProduct(name, quantity, id);
+    await productsService.updateProduct(name, quantity, id);
 
-    return res.status(200).json(updateProduct);
+    return res.status(200).json({ id, name, quantity });
   }),
 );
 
