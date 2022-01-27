@@ -2,6 +2,8 @@ module.exports = (err, _req, res, next) => {
   const errorMap = {
     registeredName: 409,
     notFound: 404,
+    requiredField: 400,
+    unprocessableQuantity: 422,
   };
 
   const status = errorMap[err.code];
@@ -10,5 +12,5 @@ module.exports = (err, _req, res, next) => {
     return next(err);
   }
 
-   res.status(status).json(err);
+  return res.status(status).json(err);
 };

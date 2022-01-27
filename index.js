@@ -6,10 +6,12 @@ const app = express();
 
 const middlewares = require('./controllers/middlewares/index');
 const productsController = require('./controllers/productsController');
+const salesController = require('./controllers/salesController');
 
 app.use(bodyParser.json());
 
 app.use('/products', productsController);
+app.use('/sales', salesController);
 
 app.use(middlewares.domainError);
 
