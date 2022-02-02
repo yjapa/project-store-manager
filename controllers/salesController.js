@@ -32,6 +32,7 @@ salesProduct.get(
   rescue(async (req, res) => {
     const { id } = req.params;
     const salesById = await salesService.getAllSalesById(id);
+    console.log(salesById, 'controller');
 
     return res.status(200).json(salesById);
   }),

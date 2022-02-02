@@ -23,7 +23,10 @@ const createProduct = async (name, quantity) => {
   return result;
 };
 
-const getAllProducts = () => productsModel.getAllProducts();
+const getAllProducts = async () => {
+  const allProducts = await productsModel.getAllProducts();
+  return allProducts;
+};
 
 const getProductsById = async (id) => {
   const [product] = await productsModel.getProductsById(id);
@@ -35,7 +38,6 @@ const getProductsById = async (id) => {
     };
     throw error;
   }
-
   return product;
 };
 

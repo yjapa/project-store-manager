@@ -15,7 +15,7 @@ app.use('/sales', salesController);
 
 app.use(middlewares.domainError);
 
-app.use(middlewares.error);
+// app.use(middlewares.error);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
