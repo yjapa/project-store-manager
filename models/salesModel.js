@@ -8,9 +8,17 @@ const createSaleDate = async () => {
   return insertId;
 };
 
-const createSalesProduct = async (saleId, productId, quantity) => { 
+const createSalesProduct = async (saleId, productId, quantity) => {
   const query = 'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);';
   await connection.execute(query, [saleId, productId, quantity]);
+  const result = {
+    id: saleId,
+    itemSold: [{
+      productId,
+      quantity,
+    }],
+  };
+  return result;
 };
 
 const getAllSales = async () => {
@@ -39,6 +47,7 @@ const getAllSalesById = async (id) => {
   s.id = sp.sale_id;`;
 
   const [sales] = await connection.execute(querySalesById, [id]);
+  console.log(sales);
   return sales;
 };
 

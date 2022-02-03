@@ -418,7 +418,7 @@ describe('Sales', () => {
     });
   });
 
-  describe.only('7 - Crie um endpoint para atualizar uma venda', () => {
+  describe('7 - Crie um endpoint para atualizar uma venda', () => {
     it('Será validado que não é possível atualizar vendas sem o campo quantity', async () => {
       let result;
       let resultProductId;
