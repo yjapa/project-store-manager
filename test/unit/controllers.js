@@ -16,29 +16,29 @@ describe('Ao chamar o middleware de erro de domínio', () => {
       next = sinon.stub().returns();
   });
 
-  describe('se o código de erro está mapeado', () => {
+  describe('código de erro mapeado', () => {
       const error = {
           code: 'notFound',
           message: 'not found',
       };
 
-      it('é chamado status com o código do erro', () => {
+      it('retorna o status com o código do erro', () => {
           domainError(error, request, response, next);
           expect(response.status.calledWith(404)).to.be.equal(true);
       });
-      it('é chamado json com o erro', () => {
+      it('retorna mensagem de erro', () => {
           domainError(error, request, response, next);
           expect(response.json.calledWith(error)).to.be.equal(true);
       });
   });
 
-  describe('se o código do erro não está mapeado', () => {
+  describe('código de erro não mapeado', () => {
       const error = {
-          code: 'serverError',
-          message: 'some server internal error',
+          code: 'internal_server_error',
+          message: 'error processing request',
       };
 
-      it('é chamado next com o erro', () => {
+      it('retorna o next com o erro', () => {
           domainError(error, request, response, next);
           expect(next.calledWith(error)).to.be.equal(true);
       });
