@@ -47,7 +47,6 @@ const getAllSalesById = async (id) => {
   s.id = sp.sale_id;`;
 
   const [sales] = await connection.execute(querySalesById, [id]);
-  console.log(sales);
   return sales;
 };
 

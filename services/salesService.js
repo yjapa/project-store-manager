@@ -23,7 +23,6 @@ const getAllSalesById = async (id) => {
     };
     throw error;
   }
-
   return salesById;
 };
 

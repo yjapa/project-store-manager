@@ -51,7 +51,7 @@ const removeProduct = async (id) => {
   const remove = await getProductsById(id);
 
   await productsModel.removeProduct(id);
-
+  console.log(remove);
   return remove;
 };
 
