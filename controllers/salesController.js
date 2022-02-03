@@ -32,9 +32,20 @@ salesProduct.get(
   rescue(async (req, res) => {
     const { id } = req.params;
     const salesById = await salesService.getAllSalesById(id);
-    console.log(salesById, 'controller');
 
     return res.status(200).json(salesById);
+  }),
+);
+
+salesProduct.put(
+  '/:id',
+  validateSales,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const sales = req.body;
+    await salesService.updateSale(id, sales);
+
+    return res.status(200).json({ saleId: id, itemUpdated: sales });
   }),
 );
 
