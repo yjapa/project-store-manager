@@ -4,6 +4,13 @@ const salesModel = require('../../models/salesModel');
 const productsModel = require('../../models/productsModel');
 const productsService = require('../../services/productsService');
 const salesService = require('../../services/salesService');
+const Product1 = 'Product_1';
+const quantity = 5;
+const prodObj = {
+	id: 1,
+	name: Product1,
+    quantity,
+};
 
 describe('Teste da camada Services - salesModel', () => {
   describe('Busca todos os produtos no banco de dados', () => {
@@ -86,31 +93,27 @@ describe('Teste da camada Services - salesModel', () => {
 
   describe('Atualiza produto no banco de dados', () => {
     describe('Atualiza com sucesso', async () => {
-      const id = {
-        insertId: 2,
+      const sale = {
+        saleId: 1,
+        itemUpdated: prodObj,
       }
-
-      const product = [
-        {
-          id: 1,
-          name: 'limão',
-          quantity: 5,
-        }
-      ]
-
-      before(async () => {
-        sinon.stub(productsModel, 'getAllProducts').resolves(product);
-        sinon.stub(productsModel, 'updateProduct').resolves(id)
-      })
-
-      after(async () => {
-        productsModel.getAllProducts.restore();
-        productsModel.updateProduct.restore();
-      })
       it('Retorna um objeto contendo updateId', async () => {
-        const response = await productsService.updateProduct('mamão', 10, 1);
-        expect(response.insertId).to.be.equals(2);
+        sinon.stub(productsService, 'updateProduct').resolves();
+        const saleServiceReturn = await productsService.updateProduct('nameaa', 1, 1)
+        expect(productsService.updateProduct).to.be.exist
+        expect(productsService.updateProduct).to.be.a('function')
+    
+        productsService.updateProduct.restore()
       })
+      it('testa retorno da função updateSale', async () => {
+        sinon.stub(salesService, 'updateSale').resolves(sale);
+        const saleServiceReturn = await salesService.updateSale(1, [prodObj])
+    
+        expect(salesService.updateSale).to.be.exist
+        expect(saleServiceReturn).to.be.a('object')
+        expect(saleServiceReturn).to.be.eql(sale)
+    
+        salesService.updateSale.restore()
     })
   })
 
@@ -162,5 +165,4 @@ describe('Teste da camada Services - salesModel', () => {
     })
   })
 })
-
-
+});
