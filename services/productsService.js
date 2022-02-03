@@ -45,7 +45,7 @@ const updateProduct = async (name, quantity, id) => {
   await getProductsById(id);
 
   const result = await productsModel.updateProduct(name, quantity, id);
-
+  console.log(result);
   return result;
 };
 

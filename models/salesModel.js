@@ -54,6 +54,7 @@ const updateSale = async (saleId, productId, quantity) => {
   const query = 'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?;';
 
   const [update] = await connection.execute(query, [quantity, saleId, productId]);
+
   return update;
 }; 
 

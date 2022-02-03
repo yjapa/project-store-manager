@@ -172,21 +172,4 @@ describe('Teste da camada Model - salesModel', () => {
       })
     })
   })
-
-  // describe('Busca todas as vendas no banco de dados', () => {
-  //   describe('Quando busca com sucesso', async () => {
-
-  //     before(async () => {
-  //       sinon.stub(connection, 'execute').resolves([{insertId: 1}]);
-  //     });
-  //     after(async () => {
-  //       connection.execute.restore();
-  //     });
-  //     it ('Retorna um objeto contendo o insertId', async () => {
-  //       const result = await salesModel.updateSale(product.id, product.productId, product.quantity);
-  //       expect(result).to.be.a('object');
-  //       expect(result.insertId).to.be.equals(1);
-  //     })
-  //   })
-  // })
 })
