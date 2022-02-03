@@ -19,8 +19,8 @@ const getProductByName = async (name) => {
 };
 
 const getAllProducts = async () => {
-  const query = 'SELECT * FROM products;';
-  const [result] = await connection.execute(query);
+  const [result] = await connection.execute('SELECT * FROM products;');
+
   return result;
 };
 

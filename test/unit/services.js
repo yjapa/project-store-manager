@@ -1,167 +1,166 @@
-// const sinon = require('sinon');
-// const { expect } = require('chai');
-// const productsModel = require('../../models/productsModel');
-// const salesService = require('../../services/salesService');
-// const productsService = require('../../services/productsService');
+const sinon = require ('sinon');
+const { expect } = require('chai');
+const salesModel = require('../../models/salesModel');
+const productsModel = require('../../models/productsModel');
+const productsService = require('../../services/productsService');
+const salesService = require('../../services/salesService');
 
-// const Product1 = 'Product_1';
-// const quantity = 5;
-// const prodObj = {
-// 	id: 1,
-// 	name: Product1,
-//   quantity,
-// };
+describe('Teste da camada Services - salesModel', () => {
+  describe('Busca todos os produtos no banco de dados', () => {
+    const product = [
+      {
+        productId: 1,
+        name: 'limão',
+        quantity: 10,
+      }
+    ]
+
+    before(async () => {
+      sinon.stub(productsModel, 'getAllProducts').resolves([product]);
+    })
+
+    after(async () => {
+      productsModel.getAllProducts.restore();
+    })
+    describe('busca em caso de sucesso', async () => {
+      it('retorna todos os produtos', async () => {
+        const result = await productsService.getAllProducts(1);
+        expect([result]).to.be.a('array');
+      })
+    })
+  })
+
+  describe('Buscar um produto por ID no banco de dados', () => {
+    const product = [
+      {
+        productId: 1,
+        name: 'limão',
+        quantity: 10,
+      }
+    ]
+
+    before(async () => {
+      sinon.stub(productsModel, 'getProductsById').resolves([product]);
+    })
+
+    after(async () => {
+      productsModel.getProductsById.restore();
+    })
+    describe('buscando por produto existente', async () => {
+      it('retorna o produto ', async () => {
+        const result = await productsService.getProductsById(1);
+        expect([result]).to.be.a('array');
+      })
+    })
+  })
+
+  describe('Inserindo um produto no banco de dados', () => {
+    describe('quando o produto é criado', async () => {
+      const id = {
+        insertId: 2,
+      }
+
+      const product = [
+        {
+          id: 1,
+          name: 'limão',
+          quantity: 10,
+        }
+      ]
+
+      before(async () => {
+        sinon.stub(productsModel, 'getAllProducts').resolves(product);
+        sinon.stub(productsModel, 'createProduct').resolves(id)
+      })
+
+      after(async () => {
+        productsModel.getAllProducts.restore();
+        productsModel.createProduct.restore();
+      })
+      it('Retorna o um objeto contendo updateId', async () => {
+        const response = await productsService.createProduct('mamão', 5);
+        expect(response.insertId).to.be.equals(2);
+      })
+    })
+  })
+
+  describe('Atualiza produto no banco de dados', () => {
+    describe('Atualiza com sucesso', async () => {
+      const id = {
+        insertId: 2,
+      }
+
+      const product = [
+        {
+          id: 1,
+          name: 'limão',
+          quantity: 5,
+        }
+      ]
+
+      before(async () => {
+        sinon.stub(productsModel, 'getAllProducts').resolves(product);
+        sinon.stub(productsModel, 'updateProduct').resolves(id)
+      })
+
+      after(async () => {
+        productsModel.getAllProducts.restore();
+        productsModel.updateProduct.restore();
+      })
+      it('Retorna um objeto contendo updateId', async () => {
+        const response = await productsService.updateProduct('mamão', 10, 1);
+        expect(response.insertId).to.be.equals(2);
+      })
+    })
+  })
+
+  describe('Busca todas as vendas no banco de dados', () => {
+    describe('se a busca for com sucesso', async () => {
+      const product = [
+        {
+          productId: 1,
+          name: 'limão',
+          quantity: 10,
+        }
+      ]
+
+      before(async () => {
+        sinon.stub(salesModel, 'getAllSales').resolves(product)
+      })
+
+      after(async () => {
+        salesModel.getAllSales.restore();
+      })
+      it('retorna todas vendas no banco', async () => {
+        const result = await salesService.getAllSales(1);
+        expect([result]).to.be.a('array');
+      })
+    })
+  })
+
+  describe('Buscar um produto por ID no banco de dados', () => {
+    const product = [
+      {
+        productId: 1,
+        name: 'limão',
+        quantity: 10,
+      }
+    ]
+
+    before(async () => {
+      sinon.stub(salesModel, 'getAllSalesById').resolves([product]);
+    })
+
+    after(async () => {
+      salesModel.getAllSalesById.restore();
+    })
+    describe('buscando por produto existente', async () => {
+      it('retorna o produto ', async () => {
+        const result = await salesService.getAllSalesById(1);
+        expect([result]).to.be.a('array');
+      })
+    })
+  })
+})
 
 
-// describe('Insere um novo produto no banco de dados', () => {
-//   const product = 'mamão';
-//   const quantity = 5;
-//   const error = {
-//       code: 'registeredName',
-//       message: 'Product already exists',
-//   };
-
-//   describe('verifica se o produto existe no banco', () => {
-//       describe('se o produto existir', () => {
-
-//         before(() => {
-//             sinon.stub(productsModel, 'getProductByName').resolves([{ id: 1, name: 'banana', quantity: 5 }]);
-//         });
-
-//         after(() => {
-//             productsModel.getProductByName.restore();
-//         });
-
-//         it('dispara error', async () => {
-//             try {
-//               await productsService.createProduct(product, quantity);
-//             } catch (err) {
-//               expect(err).to.be.deep.equal(error);
-//             }
-//           });
-//       });
-//       describe('se o produto não existir', () => {
-//           const newProduct = { id: 1, name: product, quantity, };
-
-//         before(() => {
-//           sinon.stub(productsModel, 'getProductByName').resolves([]);
-//           sinon.stub(productsModel, 'createProduct').resolves(newProduct);
-//           });
-
-//         after(() => {
-//           productsModel.getProductByName.restore();
-//           productsModel.createProduct.restore();
-//           });
-
-//           it('cadastra e retorna um objeto', async () => {
-//               const result = await productsService.createProduct(product, quantity);
-//               expect(result).to.be.a('object');
-//           });
-//       });
-//   });
-
-//   describe('Retorna dados de um produto ou de todos os produtos', () => {
-//     describe('se foi passado um id:', () => {
-//         describe('se o produto existe', () => {
-//             const product = {
-//                 id: 1,
-//                 name: 'Geladeira',
-//                 quantity: 10,
-//             }
-
-//             before(() => {
-//                 sinon.stub(productsModel, 'getProductsById').resolves(product);
-//             });
-
-//             after(() => {
-//                 productsModel.getProductsById.restore();
-//             });
-
-
-//             it('retorna os dados do produto', async () => {
-//                 const result = await productsModel.getProductsById(1);
-//                 expect(result).to.be.a('object');
-//             });
-//         });
-//         describe('se o produto não existe', () => {
-//             before(() => {
-//                 sinon.stub(productsModel, 'getProductsById').resolves();
-//             });
-
-//             after(() => {
-//                 productsModel.getProductsById.restore();
-//             });
-//             it('lança um erro', async () => {
-//                 try {
-//                     await productsModel.getProductsById(1);
-//                 } catch (error) {
-//                     expect(error).to.be.deep.equal({
-//                         code: 'notFound',
-//                         message: 'Product not found',
-//                     })
-//                 }
-//             });
-//         });
-//     });
-// });
-// });
-// ////
-// describe('Busca todas as vendas no banco de dados', () => {
-//   describe('busca realizada com sucesso', () => {
-//     describe('se o produto existe', () => {
-//       const execute = {
-//         saleId: 1,
-//         date: '2021-09-09T04:54:29.000Z',
-//         product_id: 1,
-//         quantity: 2
-//       }
-
-//       it('busca e retorna um array', async () => {
-//         sinon.stub(salesService, 'getAllSales').resolves([execute]);
-//         const result = await salesService.getAllSales();
-//         expect(result).to.be.a('array');
-//     });
-//     });
-//   });
-// });
-
-// describe('Busca vendas por ID no banco de dados', () => {
-//   describe('busca realizada com sucesso', () => {
-
-//     after(() => {
-//       salesService.getAllSalesById.restore();
-//   });
-
-//       describe('se a venda existe', () => {
-//         const execute = {
-//           date: '2022-02-03T18:47:51.000Z',
-//           product_id: 1,
-//           quantity: 10
-//         }
-
-//         it('busca e retorna um array', async () => {
-//           sinon.stub(salesService, 'getAllSalesById').resolves([execute]);
-//           const result = await salesService.getAllSalesById(1);
-//           expect(result).to.be.a('array');
-//       });
-//       });;
-//   });
-// });
-
-// describe('Busca vendas por ID no banco de dados', () => {
-//   describe('busca realizada com falha', () => {
-//       describe('se o ID não for encontrado', () => {
-
-//         it('lança um erro', async () => {
-//           try {
-//               await salesService.getAllSalesById();
-//           } catch (error) {
-//               expect(error).to.be.deep.equal({
-//                   code: 'notFound',
-//                   message: 'Sale not found',
-//               })
-//           }
-//       });
-//       });;
-//   });
-// });

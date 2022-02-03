@@ -276,7 +276,7 @@ describe('Sales', () => {
     });
   });
 
-  describe.only('6 - Crie um endpoint para listar as vendas', () => {
+  describe('6 - Crie um endpoint para listar as vendas', () => {
     it('Será validado que todas as vendas estão sendo retornadas', async () => {
       let result;
       let resultFirstSale;

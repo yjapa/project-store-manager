@@ -44,7 +44,9 @@ const getProductsById = async (id) => {
 const updateProduct = async (name, quantity, id) => {
   await getProductsById(id);
 
-  await productsModel.updateProduct(name, quantity, id);
+  const result = await productsModel.updateProduct(name, quantity, id);
+
+  return result;
 };
 
 const removeProduct = async (id) => {
