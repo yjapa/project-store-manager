@@ -61,36 +61,6 @@ describe('Teste da camada Services - salesModel', () => {
     })
   })
 
-  describe('Inserindo um produto no banco de dados', () => {
-    describe('quando o produto é criado', async () => {
-      const id = {
-        insertId: 2,
-      }
-
-      const product = [
-        {
-          id: 1,
-          name: 'limão',
-          quantity: 10,
-        }
-      ]
-
-      before(async () => {
-        sinon.stub(productsModel, 'getAllProducts').resolves(product);
-        sinon.stub(productsModel, 'createProduct').resolves(id)
-      })
-
-      after(async () => {
-        productsModel.getAllProducts.restore();
-        productsModel.createProduct.restore();
-      })
-      it('Retorna o um objeto contendo updateId', async () => {
-        const response = await productsService.createProduct('mamão', 5);
-        expect(response.insertId).to.be.equals(2);
-      })
-    })
-  })
-
   describe('Atualiza produto no banco de dados', () => {
     describe('Atualiza com sucesso', async () => {
       const sale = {
