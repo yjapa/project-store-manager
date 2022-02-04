@@ -4,13 +4,6 @@ const salesModel = require('../../models/salesModel');
 const productsModel = require('../../models/productsModel');
 const productsService = require('../../services/productsService');
 const salesService = require('../../services/salesService');
-const Product1 = 'Product_1';
-const quantity = 5;
-const prodObj = {
-	id: 1,
-	name: Product1,
-    quantity,
-};
 
 describe('Teste da camada Services - salesModel', () => {
   describe('Busca todos os produtos no banco de dados', () => {
@@ -61,33 +54,8 @@ describe('Teste da camada Services - salesModel', () => {
     })
   })
 
-  describe('Atualiza produto no banco de dados', () => {
-    describe('Atualiza com sucesso', async () => {
-      const sale = {
-        saleId: 1,
-        itemUpdated: prodObj,
-      }
-      it('Retorna um objeto contendo updateId', async () => {
-        sinon.stub(productsService, 'updateProduct').resolves();
-        const saleServiceReturn = await productsService.updateProduct('nameaa', 1, 1)
-        expect(productsService.updateProduct).to.be.exist
-        expect(productsService.updateProduct).to.be.a('function')
-    
-        productsService.updateProduct.restore()
-      })
-      it('testa retorno da função updateSale', async () => {
-        sinon.stub(salesService, 'updateSale').resolves(sale);
-        const saleServiceReturn = await salesService.updateSale(1, [prodObj])
-    
-        expect(salesService.updateSale).to.be.exist
-        expect(saleServiceReturn).to.be.a('object')
-        expect(saleServiceReturn).to.be.eql(sale)
-    
-        salesService.updateSale.restore()
-    })
-  })
-
   describe('Busca todas as vendas no banco de dados', () => {
+    describe('buscando todas vendas', () => {
     describe('se a busca for com sucesso', async () => {
       const product = [
         {
@@ -111,7 +79,7 @@ describe('Teste da camada Services - salesModel', () => {
     })
   })
 
-  describe('Buscar um produto por ID no banco de dados', () => {
+  describe('Buscar uma venda por ID no banco de dados', () => {
     const product = [
       {
         productId: 1,
@@ -135,4 +103,27 @@ describe('Teste da camada Services - salesModel', () => {
     })
   })
 })
+  describe('Testa se atualiza um produto', () => {
+    describe('Atualiza com sucesso', async () => {
+      const fakeProduct = {
+        insertId: 2,
+      }
+
+      const id = 1
+
+      before(async () => {
+        sinon.stub(productsModel, 'getProductsById').resolves([id]);
+        sinon.stub(productsModel, 'updateProduct').resolves(fakeProduct)
+      })
+
+      after(async () => {
+        productsModel.getProductsById.restore();
+        productsModel.updateProduct.restore();
+      })
+      it('Retorna um objeto contendo updateId', async () => {
+        const response = await productsService.updateProduct('produto_2', 10, 1);
+        expect(response.insertId).to.be.equals(2);
+      })
+    })
+  })
 });
