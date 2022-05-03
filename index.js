@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const middlewares = require('./controllers/middlewares/index');
+const middlewares = require('./controllers/middlewares');
 const productsController = require('./controllers/productsController');
 const salesController = require('./controllers/salesController');
 
@@ -15,7 +15,7 @@ app.use('/sales', salesController);
 
 app.use(middlewares.domainError);
 
-// app.use(middlewares.error);
+app.use(middlewares.error);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
