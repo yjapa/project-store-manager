@@ -35,3 +35,5 @@ Para rodar o projeto, utilize na pasta raiz o comando:
 ```bash
 npm start
 ```
+
+* Os endpoints estão no padrão REST, ou seja, utilize os verbos HTTP para realizar as requisições.
