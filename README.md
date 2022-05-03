@@ -112,3 +112,7 @@ npm start
   }
 ]
 ```
+
+## Observações:
+
+* Projeto em andamento para melhorias e implementações de mais funcionalidades.
