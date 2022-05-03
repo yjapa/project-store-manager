@@ -16,6 +16,18 @@ Após clonar o projeto, utilize na pasta raiz o comando:
 ```bash
 npm install
 ```
+
+## Variáveis de Ambiente
+
+Na raiz do projeto, crie um arquivo .env para configurar as variáveis de ambiente. Por exemplo, caso o seu usuário SQL seja `nome` e senha `1234` seu arquivo ficará desta forma:
+
+```bash
+MYSQL_HOST=localhost
+MYSQL_USER=nome
+MYSQL_PASSWORD=1234
+PORT=3000
+```
+
 ## Executando aplicação
 
 Para rodar o projeto, utilize na pasta raiz o comando:
